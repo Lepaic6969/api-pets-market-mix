@@ -1,0 +1,2 @@
+Esta es la API construida con Node.js, express y MySQL para el proyecto de la tienda de
+mascotas en el ciclo 2 del semillero Market-Mix.
