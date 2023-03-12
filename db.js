@@ -7,7 +7,10 @@ const Sequelize=require('sequelize');
                             //(name_DB,usuario,contraseña)
 const sequelize=new Sequelize(DB_NAME,DB_USER,DB_PASSWORD,{
     host:DB_HOST,
-    dialect:'mysql'
+    dialect:'mysql',
+    dialectOptions: {
+        ssl: false
+    }
 })
 // const sequelize=new Sequelize('pet_db','root','Abc1234567890',{
 //     host:'localhost',
