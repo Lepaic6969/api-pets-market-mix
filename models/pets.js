@@ -12,13 +12,15 @@ module.exports=(sequelize,type,Races)=>{ //Traigo el modelo Races para usar su i
         description:type.STRING,
         image:type.STRING,
         available:type.BOOLEAN,
+        raceId:type.INTEGER
         //Esta es la llave foranea
-        raceId:{
-            type:type.INTEGER,
-            references:{
-                model:Races,
-                key:'id'
-            }
-        }
+        // raceId:{
+        //     type:type.INTEGER,
+        //     references:{
+        //         model:Races,
+        //         key:'id'
+        //     }
+        // }
+        
     });
 }
