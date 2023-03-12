@@ -5,16 +5,48 @@ const {DB_HOST,DB_USER,DB_PASSWORD,DB_NAME}=require('./config.js');
 //1. IMPORTO SEQUELIZE A MI PROYECTO Y LO INSTANCIO
 const Sequelize=require('sequelize');
                             //(name_DB,usuario,contraseña)
+// const sequelize=new Sequelize(DB_NAME,DB_USER,DB_PASSWORD,{
+//     host:DB_HOST,
+//     dialect:'mysql',
+//     dialectOptions: {
+//         ssl: false
+//     }
+
+// })
+// const sequelize=new Sequelize('pet_db','root','Abc1234567890',{
+//     host:'localhost',
+//     dialect:'mysql'
+// })
+const fs = require('fs');
+const path = require('path');
+// Ruta del archivo de certificado y clave
+const sslCertPath = path.join(__dirname, 'ssl', 'server-cert.pem');
+const sslKeyPath = path.join(__dirname, 'ssl', 'server-key.pem');
+
+// Lee el certificado y la clave
+const sslCert = fs.readFileSync(sslCertPath);
+const sslKey = fs.readFileSync(sslKeyPath);
 const sequelize=new Sequelize(DB_NAME,DB_USER,DB_PASSWORD,{
     host:DB_HOST,
     dialect:'mysql',
     dialectOptions: {
-        ssl: false
-    }
-})
-// const sequelize=new Sequelize('pet_db','root','Abc1234567890',{
-//     host:'localhost',
-//     dialect:'mysql'
+        ssl: {
+                cert: sslCert,
+                key: sslKey,
+                rejectUnauthorized: false // Establece en falso para aceptar certificados autofirmados
+            }
+        }
+    })
+// const sequelize=new Sequelize('pet_db','nkue5o3m74prpp9vuk39','pscale_pw_pqjJW2B3IBpKCtfT2TMsrxpiSBEIEJhVSLK8UQoTPWQ',{
+//     host:'us-east.connect.psdb.cloud',
+//     dialect:'mysql',
+//     dialectOptions: {
+//         ssl: {
+//             cert: sslCert,
+//             key: sslKey,
+//             rejectUnauthorized: false // Establece en falso para aceptar certificados autofirmados
+//           }
+//     }
 // })
 
 //2.TRAIGO MIS MODELOS PREVIAMENTE CREADOS EN UN FICHERO DE LA CARPETA MODELS.
@@ -26,11 +58,11 @@ const sequelize=new Sequelize(DB_NAME,DB_USER,DB_PASSWORD,{
 const racesModel=require('./models/races.js');
 const Races=racesModel(sequelize,Sequelize);
 
-const petsModel=require('./models/pets.js');
-const Pets=petsModel(sequelize,Sequelize,Races);
-
 const usersModel=require('./models/users.js');
 const Users=usersModel(sequelize,Sequelize);
+
+const petsModel=require('./models/pets.js');
+const Pets=petsModel(sequelize,Sequelize,Races);
 
 const adoptionsModel=require('./models/adoptions.js');
 const Adoptions=adoptionsModel(sequelize,Sequelize,Pets,Users);
